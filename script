@@ -1,0 +1,27 @@
+;Versie 1.0
+
+;Includes
+#include <INet.au3>
+
+;Settings
+Opt("TrayMenuMode",1)
+
+;Login
+$login = 0
+While $login = 0
+    $user = InputBox("Login", "Voer je gebruikersnaam in:", "")
+    $pass = InputBox("Login", "Voer je wachtwoord in:", "", "*")
+    $logincheck = _INetGetSource("http://DOMEINNAAM/incheck.php?user=" & $user & "&pass=" & $pass)
+    if($logincheck = "true") Then
+        $login = 1
+    MsgBox(0, "Correct", "Je bent nu succesvol ingelogd. Het programma begint nu met het bezoeken van sites.")
+    Else
+        MsgBox(0, "Fout", "De gegevens zijn niet correct")
+    EndIf
+WEnd
+
+While 1
+    $visit = _INetGetSource("http://DOMEINNAAM/visit_site_830485.php?user=" & $user & "&pass=" & $pass)
+    $website = _INetGetSource($visit)
+    Sleep(30000)
+WEnd
